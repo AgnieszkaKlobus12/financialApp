@@ -1,7 +1,7 @@
 from tkinter import Button, RIGHT, LEFT, messagebox, END, Entry, Label, Frame, BOTH
 from tkinter.simpledialog import Dialog
 
-from main_GUI.global_variables import BUTTON_COLOR, BUTTON_FONT, BUTTON_FONT_COLOR, CATEGORY_NAME_SIZE
+from global_variables import BUTTON_COLOR, BUTTON_FONT, BUTTON_FONT_COLOR, CATEGORY_NAME_SIZE
 
 
 class Add_Category(Dialog):

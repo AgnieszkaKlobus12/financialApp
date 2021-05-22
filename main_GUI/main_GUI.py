@@ -12,7 +12,7 @@ from main_GUI.dialog_windows.filter_transactions_dialog import Filter_Transactio
 from main_GUI.dialog_windows.new_transaction_dialog import New_Transaction
 from main_GUI.dialog_windows.sort_transactions_dialog import Sort_Transactions
 from main_GUI.dialog_windows.transfer_dialog import Transfer
-from main_GUI.global_variables import WINDOW_SIZE, BUTTON_BAR_BUTTON_COLOR, WINDOW_WIDTH, TOOLBAR_ACC_FONT, TOOLBAR_BG,\
+from global_variables import WINDOW_SIZE, BUTTON_BAR_BUTTON_COLOR, WINDOW_WIDTH, TOOLBAR_ACC_FONT, TOOLBAR_BG,\
     INNER_FRAME_BG, TRANS_GREEN, TRANS_RED, DATA_FONT, DATA_FONT_COLOR, DATA_COLOR, BUTTON_FONT, BUTTON_FONT_COLOR, \
     INNER_FRAME_DATA_BG, BUTTON_COLOR
 from user_data.user import User, T_Income

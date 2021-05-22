@@ -4,7 +4,7 @@ from tkinter.simpledialog import Dialog
 
 import tkcalendar
 
-from main_GUI.global_variables import BUTTON_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT, PICK_FONT
+from global_variables import BUTTON_COLOR, BUTTON_FONT_COLOR, BUTTON_FONT, PICK_FONT
 from user_data.categories import Category_In, Category_Out
 
 

@@ -1,7 +1,7 @@
 from tkinter import Button, Frame, Label, BOTH, Entry, END, messagebox, LEFT, RIGHT
 from tkinter.simpledialog import Dialog
 
-from main_GUI.global_variables import BUTTON_COLOR, BUTTON_FONT, BUTTON_FONT_COLOR
+from global_variables import BUTTON_COLOR, BUTTON_FONT, BUTTON_FONT_COLOR
 
 
 class Change_Balance(Dialog):

@@ -1,4 +1,4 @@
-from main_GUI.global_variables import CATEGORY_NAME_SIZE, ACCOUNT_NAME_SIZE
+from global_variables import CATEGORY_NAME_SIZE, ACCOUNT_NAME_SIZE
 
 
 class Transaction:

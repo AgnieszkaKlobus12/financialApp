@@ -1,7 +1,7 @@
 from tkinter import messagebox, Button, RIGHT, LEFT, GROOVE, OptionMenu, Label, Frame, BOTH, StringVar
 from tkinter.simpledialog import Dialog
 
-from main_GUI.global_variables import BUTTON_FONT_COLOR, BUTTON_COLOR, BUTTON_FONT, DATA_COLOR, DATA_FONT, \
+from global_variables import BUTTON_FONT_COLOR, BUTTON_COLOR, BUTTON_FONT, DATA_COLOR, DATA_FONT, \
     DATA_FONT_COLOR
 
 

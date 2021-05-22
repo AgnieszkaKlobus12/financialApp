@@ -1,7 +1,7 @@
 from tkinter import Button, LEFT, RIGHT, END, messagebox, Entry, Label, BOTH, Frame
 from tkinter.simpledialog import Dialog
 
-from main_GUI.global_variables import BUTTON_COLOR, BUTTON_FONT, BUTTON_FONT_COLOR, ACCOUNT_NAME_SIZE
+from global_variables import BUTTON_COLOR, BUTTON_FONT, BUTTON_FONT_COLOR, ACCOUNT_NAME_SIZE
 
 
 class Add_Account(Dialog):
