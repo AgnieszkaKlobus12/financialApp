@@ -1,6 +1,7 @@
 # Default ignored files
 /shelf/
-userFiles/
+/userFiles/
+/.idea
 /workspace.xml
 # Datasource local storage ignored files
 /../../../:\financialApp\.idea/dataSources/
@@ -123,6 +124,7 @@ celerybeat.pid
 .env/
 .venv/
 env/
+venv/
 /venv/
 ENV/
 env.bak/
