@@ -1,9 +1,13 @@
-a|b|
-90.0|0.0|
-a|
-b|
+Bank Account|Cash|Debt|
+84813.44|1134.24|-250.0|
+salaries|gifts|savings|
+travels|food|clothes|taxes|bills|books|concerts|other|
 
--|a|b|-50.0|19-05-2021||
-+|a|a|40.0|19-05-2021||
--|a|b|0.0|19-05-2021||
-+|a|a|0.0|19-05-2021||
++|Bank Account|gifts|100.0|12-05-2021|from uncle|
+-|Bank Account|clothes|-125.99|22-05-2021|new dress|
+-|Bank Account|food|-14.5|17-05-2021||
++|Bank Account|savings|10.0|19-05-2021||
+-|Cash|books|-40.0|11-05-2021||
++|Cash|gifts|100.0|13-04-2021||
+-|Debt|books|-50.0|22-05-2021|from aunt|
++|Cash|gifts|50.0|06-04-2021||

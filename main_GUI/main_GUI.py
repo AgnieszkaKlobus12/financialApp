@@ -1,11 +1,21 @@
 import os
-from tkinter import filedialog
+from tkinter import filedialog, messagebox, Frame, TOP, X, BOTH, Button, LEFT, FLAT, RAISED, Menu, BOTTOM, Canvas, \
+    Scrollbar, VERTICAL, RIGHT, NW, Y, Label
 from tkinter.ttk import Notebook
 
-from data_classes import T_Income
-from dialog_windows import *
-from global_variables import *
-from user import User
+from main_GUI.dialog_windows.add_account_dialog import Add_Account
+from main_GUI.dialog_windows.add_category_dialog import Add_Category
+from main_GUI.dialog_windows.change_balance_dialog import Change_Balance
+from main_GUI.dialog_windows.delete_account_dialog import Delete_Account
+from main_GUI.dialog_windows.delete_category_dialog import Delete_Category
+from main_GUI.dialog_windows.filter_transactions_dialog import Filter_Transactions
+from main_GUI.dialog_windows.new_transaction_dialog import New_Transaction
+from main_GUI.dialog_windows.sort_transactions_dialog import Sort_Transactions
+from main_GUI.dialog_windows.transfer_dialog import Transfer
+from main_GUI.global_variables import WINDOW_SIZE, BUTTON_BAR_BUTTON_COLOR, WINDOW_WIDTH, TOOLBAR_ACC_FONT, TOOLBAR_BG,\
+    INNER_FRAME_BG, TRANS_GREEN, TRANS_RED, DATA_FONT, DATA_FONT_COLOR, DATA_COLOR, BUTTON_FONT, BUTTON_FONT_COLOR, \
+    INNER_FRAME_DATA_BG, BUTTON_COLOR
+from user_data.user import User, T_Income
 
 
 class Application_GUI(Frame):
@@ -107,12 +117,20 @@ class Application_GUI(Frame):
             export = os.path.join(dir_export, self.__user.user)
             self.__user.save_readable_data(export)
 
+        def quit(event=None):
+            self.quit_program()
+
+        def save(event=None):
+            self.__user.save_data()
+
         menu_bar = Menu(self.__window)
         self.__window.config(menu=menu_bar)
 
         menu_file = Menu(menu_bar)
-        menu_file.add_command(label='Save', command=self.__user.save_data)
-        menu_file.add_command(label='Quit', command=self.quit_program)
+        menu_file.add_command(label='Save', command=self.__user.save_data, accelerator="Ctrl+S")
+        self.__window.bind("<Control-s>", save)
+        menu_file.add_command(label='Quit', command=self.quit_program, accelerator="Ctrl+Q")
+        self.__window.bind("<Control-q>", quit)
         menu_bar.add_cascade(label='Menu', menu=menu_file)
 
         menu_export = Menu(menu_bar)
@@ -152,12 +170,12 @@ class Application_GUI(Frame):
 
     def transactions_tab(self, frm, transactions=None):
         frm_top, frm_list, frm_ope, active_accounts = self.base_tab(frm)
-        picked_sum = 0.0
+        picked_sum = 0
         if transactions is None:
             transactions = self.__user.get_transactions_for_accounts(active_accounts)
             transactions.reverse()
         for t_transaction in range(len(transactions)):
-            picked_sum += transactions[t_transaction].amount
+            picked_sum += int(transactions[t_transaction].amount * 100)
             if isinstance(transactions[t_transaction], T_Income):
                 bg = TRANS_GREEN
             else:
@@ -200,7 +218,7 @@ class Application_GUI(Frame):
             padx=5,
             side=LEFT,
             pady=5)
-        Label(frm_help, height="2", width="40", text=picked_sum, bg=DATA_COLOR, font=DATA_FONT,
+        Label(frm_help, height="2", width="40", text=float(picked_sum/100), bg=DATA_COLOR, font=DATA_FONT,
               fg=DATA_FONT_COLOR).pack(side=LEFT, padx=5, pady=5)
         frm_help.pack(padx=5, pady=5)
         frm_help = Frame(frm_ope, bg=TOOLBAR_BG)
@@ -246,10 +264,17 @@ class Application_GUI(Frame):
         if categories is None:
             categories = self.__user.categories_in
         frm_top, frm_list, frm_ope, active_accounts = self.base_tab(frm)
-        btt_change = Button(frm_top, height="2", width="40", text=btt_text, bg=BUTTON_BAR_BUTTON_COLOR,
+        btt_change = Button(frm_top, height="1", width="40", text=btt_text, bg=BUTTON_BAR_BUTTON_COLOR,
                             font=BUTTON_FONT,
                             fg=BUTTON_FONT_COLOR, command=lambda: self.change_button(btt_change))
+        if btt_text == "Show Outcome Categories":
+            showing = Label(frm_top, height="2", width="40", text="Incomes", bg="#306935", font=BUTTON_FONT,
+                            fg=BUTTON_FONT_COLOR)
+        else:
+            showing = Label(frm_top, height="2", width="40", text="Outcomes", bg="#a62431", font=BUTTON_FONT,
+                            fg=BUTTON_FONT_COLOR)
         btt_change.pack(padx=5, pady=5)
+        showing.pack(padx=5, pady=5)
 
         categories_sum = 0.0
         for c_category in range(len(categories)):
@@ -260,7 +285,8 @@ class Application_GUI(Frame):
             amount = self.__user.get_transactions_amount_for_cat_acc(active_accounts, categories[c_category])
             categories_sum += amount
             Label(frm_help, height="2", width="30", text=amount,
-                  bg=INNER_FRAME_DATA_BG, font=DATA_FONT, fg=DATA_FONT_COLOR).pack(side=LEFT, padx=5, pady=5, expand=True)
+                  bg=INNER_FRAME_DATA_BG, font=DATA_FONT, fg=DATA_FONT_COLOR).pack(side=LEFT, padx=5, pady=5,
+                                                                                   expand=True)
             frm_help.grid(row=c_category, column=1, padx=5, pady=5)
 
         frm_help = Frame(frm_top, bg=TOOLBAR_BG)
@@ -298,9 +324,11 @@ class Application_GUI(Frame):
         self.set_account_toolbar(self.__tbr_accounts)
 
     def delete_category_button(self, btt_text):
-        if len(self.__user.accounts_names) < 1:
+        if (btt_text == "Show Outcome Categories" and len(self.__user.categories_in) < 1) or \
+                (btt_text == "Show Income Categories" and len(self.__user.categories_out) < 1):
             messagebox.showinfo('Invalid categories', "No categories to choose from!")
             return
+
         Delete_Category(self.__user, btt_text, self.__window)
         self.actualize_tabs()
         if btt_text == "Show Outcome Categories":
@@ -311,14 +339,14 @@ class Application_GUI(Frame):
 
     def accounts_tab(self, frm):
         frm_top, frm_list, frm_ope, active_accounts = self.base_tab(frm)
-        accounts_sum_balance = 0.0
+        accounts_sum_balance = 0
         for acc in active_accounts:
-            accounts_sum_balance += acc.balance
+            accounts_sum_balance += int(acc.balance*100)
 
         frm_help = Frame(frm_top, bg=TOOLBAR_BG)
         Label(frm_help, height="2", width="30", text="Sum:", bg=DATA_COLOR, font=DATA_FONT, fg=DATA_FONT_COLOR).pack(
             side=LEFT, padx=5, pady=5)
-        Label(frm_help, height="2", width="30", text=accounts_sum_balance, bg=DATA_COLOR, font=DATA_FONT,
+        Label(frm_help, height="2", width="30", text=float(accounts_sum_balance/100), bg=DATA_COLOR, font=DATA_FONT,
               fg=DATA_FONT_COLOR).pack(side=LEFT, padx=5, pady=5)
         frm_help.pack(padx=5, pady=5)
 
@@ -336,12 +364,12 @@ class Application_GUI(Frame):
                 column=2,
                 padx=8, pady=5)
         frm_help1 = Frame(frm_ope, bg=TOOLBAR_BG)
-        Button(frm_help1, height="2", width="30", text="Transfer", bg=BUTTON_BAR_BUTTON_COLOR, font=BUTTON_FONT,
+        Button(frm_help1, height="2", width="25", text="Transfer", bg=BUTTON_BAR_BUTTON_COLOR, font=BUTTON_FONT,
                fg=BUTTON_FONT_COLOR,
                command=self.transfer_button).pack(padx=5, pady=5, side=LEFT)
-        Button(frm_help1, height="2", width="30", text="Add Account", bg=BUTTON_BAR_BUTTON_COLOR, font=BUTTON_FONT,
+        Button(frm_help1, height="2", width="25", text="Add Account", bg=BUTTON_BAR_BUTTON_COLOR, font=BUTTON_FONT,
                fg=BUTTON_FONT_COLOR, command=self.add_account_button).pack(padx=5, pady=5, side=LEFT)
-        Button(frm_help1, height="2", width="30", text="Delete Account", bg=BUTTON_BAR_BUTTON_COLOR, font=BUTTON_FONT,
+        Button(frm_help1, height="2", width="25", text="Delete Account", bg=BUTTON_BAR_BUTTON_COLOR, font=BUTTON_FONT,
                fg=BUTTON_FONT_COLOR, command=self.delete_account_button).pack(padx=5, pady=5, side=LEFT)
         frm_help1.pack(padx=5, pady=5)
 

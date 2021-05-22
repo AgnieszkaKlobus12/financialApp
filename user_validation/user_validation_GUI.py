@@ -1,9 +1,8 @@
-from tkinter import *
-from tkinter import messagebox
+from tkinter import Frame, StringVar, Label, Button, X, Entry, messagebox, END, Tk
 
-from main_GUI import Application_GUI
-from global_variables import *
-from user_validation import register_user_controller, login_user_controller
+from main_GUI.global_variables import BUTTON_FONT_COLOR, BUTTON_COLOR, BUTTON_FONT, DATA_FONT
+from main_GUI.main_GUI import Application_GUI
+from user_validation import *
 
 
 class User_Validation_GUI(Frame):

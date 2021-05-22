@@ -1,7 +1,9 @@
 import datetime
 import os
 
-from data_classes import *
+from user_data.accounts import *
+from user_data.categories import *
+from user_data.transactions import *
 
 
 class User:
@@ -20,7 +22,8 @@ class User:
         self.__categories_out = categories_out
         self.__transactions = transactions
         class_dir = os.path.dirname(__file__)
-        self.__file = os.path.join(class_dir, 'userFiles', login)
+        parent = os.path.normpath(os.path.join(class_dir, os.pardir))
+        self.__file = os.path.join(parent, 'userFiles', login)
 
     @property
     def user(self):
@@ -53,7 +56,7 @@ class User:
         return self.__transactions
 
     def add_transaction(self, account, category, amount, date, description=""):
-        if category in [c.name for c in self.__categories_out]:
+        if category in [c.name for c in self.__categories_out] or amount < 0:
             if amount > 0:
                 amount *= -1
             self.__transactions.append(T_Outcome(account, category, amount, date, description))
@@ -62,10 +65,8 @@ class User:
         self.get_account_from_name(account).add_balance(amount)
 
     def add_account(self, name, balance=0.0):
-        account = Account(name, 0.0)
+        account = Account(name, balance)
         self.__accounts.append(account)
-        if balance != 0:
-            self.add_transaction(account.name, "Initial", balance, datetime.date.today())
 
     def add_out_category(self, name):
         self.__categories_out.append(Category_Out(name))
@@ -144,14 +145,6 @@ class User:
             if tra.account_n in a_list:
                 r_transactions.append(tra)
         return r_transactions
-
-    def change_account_balance(self, account, new_balance, date=datetime.date.today()):
-        diff = new_balance - account.balance
-        if diff > 0:
-            self.__transactions.append(T_Income(account.name, "Balance Change", diff, date))
-        else:
-            self.__transactions.append(T_Outcome(account.name, "Balance Change", diff, date))
-        account.add_balance(diff)
 
     def make_transfer(self, a_from, a_to, amount, date):
         self.add_transaction(a_from, "Transfer", -amount, date)
