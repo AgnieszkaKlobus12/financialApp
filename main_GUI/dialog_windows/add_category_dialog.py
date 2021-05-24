@@ -10,9 +10,9 @@ class Add_Category(Dialog):
         self.__c_name = None
         self.__title = title
         if title == "Show Outcome Categories":
-            super().__init__(parent, "Delete Income Category")
+            super().__init__(parent, "Add Income Category")
         else:
-            super().__init__(parent, "Delete Outcome Category")
+            super().__init__(parent, "Add Outcome Category")
 
     def body(self, master):
         frm_base = Frame(master)

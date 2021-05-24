@@ -18,7 +18,7 @@ def register_user_controller(login, passwd):
         if user[0] == login:
             raise ValueError("User with chosen login already exists")
     users_file.close()
-    users_file = open("users.bin", "a", encoding="utf-8")
+    users_file = open(file, "a", encoding="utf-8")
     users_file.write(login + " " + str(base64.b64encode(passwd.encode("utf-8"))) + "\n")
     users_file.close()
 

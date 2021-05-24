@@ -23,7 +23,7 @@ class User:
         self.__transactions = transactions
         class_dir = os.path.dirname(__file__)
         parent = os.path.normpath(os.path.join(class_dir, os.pardir))
-        self.__file = os.path.join(parent, 'userFiles', login)
+        self.__file = os.path.join(parent, 'user_files', login)
 
     @property
     def user(self):
@@ -75,26 +75,17 @@ class User:
         self.__categories_in.append(Category_In(name))
 
     def delete_category(self, c_name):
-        c_r = None
-        for c in self.__categories_in:
-            if c.name == c_name:
-                c_r = c
-        if c_r is not None:
+        c_r = self.get_category_from_name(c_name)
+        if isinstance(c_r, Category_In):
             self.__categories_in.remove(c_r)
         else:
-            for c in self.__categories_out:
-                if c.name == c_name:
-                    c_r = c
             self.categories_out.remove(c_r)
         transactions_to_remove = [tr for tr in self.__transactions if tr.category_n == c_name]
         for tr in transactions_to_remove:
             self.delete_transaction(tr, False)
 
     def delete_account(self, a_name):
-        a_r = None
-        for a in self.__accounts:
-            if a.name == a_name:
-                a_r = a
+        a_r = self.get_account_from_name(a_name)
         self.__accounts.remove(a_r)
         transactions_to_remove = [tr for tr in self.__transactions if tr.account_n == a_name]
         for tr in transactions_to_remove:

@@ -1,8 +1,8 @@
-from tkinter import Frame, StringVar, Label, Button, X, Entry, messagebox, END, Tk
+from tkinter import Frame, StringVar, Label, Button, X, Entry, messagebox, END
 
 from global_variables import BUTTON_FONT_COLOR, BUTTON_COLOR, BUTTON_FONT, DATA_FONT
 from main_GUI.main_GUI import Application_GUI
-from user_validation import *
+from user_validation.user_validation import *
 
 
 class User_Validation_GUI(Frame):
@@ -30,6 +30,7 @@ class User_Validation_GUI(Frame):
     def __input_fields(self):
         for widget in self.__window.winfo_children():
             widget.destroy()
+        self.__window.geometry("300x300")
 
         Label(self.__window, height="2", text="Please enter details below", font=BUTTON_FONT, bg=BUTTON_COLOR,
               fg=BUTTON_FONT_COLOR).pack(fill=X)
@@ -48,7 +49,6 @@ class User_Validation_GUI(Frame):
 
     def __register(self):
         register_screen = self.__window
-        self.__window.geometry("300x300")
         register_screen.title("Register")
         self.__input_fields()
         Button(register_screen, text="Register", width="20", height="1", font=BUTTON_FONT, bg=BUTTON_COLOR,
@@ -76,7 +76,6 @@ class User_Validation_GUI(Frame):
         self.__input_fields()
         self.__username_entry.delete(0, END)
         self.__password_entry.delete(0, END)
-        self.__window.geometry("300x300")
         Button(login_screen, text="Login", width="20", height="1", font=BUTTON_FONT, bg=BUTTON_COLOR,
                fg=BUTTON_FONT_COLOR,
                command=self.__login_user).pack(padx=15, pady=10)
@@ -90,9 +89,3 @@ class User_Validation_GUI(Frame):
             Application_GUI(self.__window, self.__username.get())
         except ValueError as e:
             self.__invalid_input(e)
-
-
-if __name__ == '__main__':
-    window = Tk()
-    User_Validation_GUI(window)
-    window.mainloop()
