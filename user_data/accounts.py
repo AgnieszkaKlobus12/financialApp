@@ -4,8 +4,7 @@ class Account:
         self.__balance = int(balance * 100)
 
     def change_balance(self, new_balance):
-        diff = new_balance - self.__balance
-        self.add_balance(diff)
+        self.__balance = int(new_balance * 100)
 
     @property
     def name(self):
@@ -17,4 +16,3 @@ class Account:
 
     def add_balance(self, amount):
         self.__balance += int(amount * 100)
-

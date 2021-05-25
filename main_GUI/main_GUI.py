@@ -5,7 +5,7 @@ from tkinter.ttk import Notebook
 
 from global_variables import WINDOW_SIZE, BUTTON_BAR_BUTTON_COLOR, WINDOW_WIDTH, TOOLBAR_ACC_FONT, TOOLBAR_BG, \
     INNER_FRAME_BG, TRANS_GREEN, TRANS_RED, DATA_FONT, DATA_FONT_COLOR, DATA_COLOR, BUTTON_FONT, BUTTON_FONT_COLOR, \
-    INNER_FRAME_DATA_BG, BUTTON_COLOR
+    INNER_FRAME_DATA_BG, BUTTON_COLOR, TOOLBAR_LENGHT
 from main_GUI.dialog_windows.add_account_dialog import Add_Account
 from main_GUI.dialog_windows.add_category_dialog import Add_Category
 from main_GUI.dialog_windows.change_balance_dialog import Change_Balance
@@ -74,7 +74,7 @@ class Application_GUI(Frame):
         chars_split = 0
         frm_row = Frame(toolbar, bg=BUTTON_BAR_BUTTON_COLOR)
         for a in range(len(self.__user.accounts_names)):
-            if sum(len(b['text']) for b in buttons) + len(self.__user.accounts_names[a]) - chars_split > 100:
+            if sum(len(b['text']) for b in buttons) + len(self.__user.accounts_names[a]) - chars_split > TOOLBAR_LENGHT:
                 chars_split += (sum(len(b['text']) for b in buttons) - chars_split)
                 frm_row.pack(fill=BOTH, expand=True)
                 frm_row = Frame(toolbar, bg=BUTTON_BAR_BUTTON_COLOR)

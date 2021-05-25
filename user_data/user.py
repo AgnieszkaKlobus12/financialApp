@@ -138,8 +138,10 @@ class User:
         return r_transactions
 
     def make_transfer(self, a_from, a_to, amount, date):
-        self.add_transaction(a_from, "Transfer", -amount, date)
-        self.add_transaction(a_to, "Transfer", amount, date)
+        a_from = self.get_account_from_name(a_from)
+        a_from.change_balance(a_from.balance - amount)
+        a_to = self.get_account_from_name(a_to)
+        a_to.change_balance(a_to.balance + amount)
 
     def save_data(self, file=None):
         if file is None:
