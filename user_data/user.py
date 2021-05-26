@@ -24,7 +24,6 @@ class User:
         class_dir = os.path.dirname(__file__)
         parent = os.path.normpath(os.path.join(class_dir, os.pardir))
         self.__file = os.path.join(parent, 'user_files', login)
-        self.__file += ".bin"
 
     @property
     def user(self):
@@ -147,7 +146,7 @@ class User:
     def save_data(self, file=None):
         if file is None:
             file = self.__file
-        data_out = open(file, 'w', encoding="UTF-8")
+        data_out = open(file + ".bin", 'w', encoding="UTF-8")
         for account in self.__accounts:
             data_out.write(account.name + "|")
         data_out.write("\n")
