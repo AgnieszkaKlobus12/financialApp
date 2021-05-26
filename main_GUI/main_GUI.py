@@ -103,6 +103,7 @@ class Application_GUI(Frame):
         def import_data():
             file_import = filedialog.askopenfilename(filetypes=(("Binary files", "bin"),))
             self.__user.read_from_file(file_import)
+            self.__user.save_data()
             self.__start()
 
         def export_data():
